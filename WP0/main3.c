@@ -23,5 +23,5 @@ int main (int argc, char *argv[]) { // main function, takes # of arguments aswel
         printf("Name too long, max 50 characters \n");
         return 0; // returning 0 to succesfully close the program
     }
-    return 0;
+    return 0; // returning 0 to succesfully close the program
 }
