@@ -86,8 +86,8 @@ void draw_histogram(int* freq, int* max_number, char* orientation) {
             printf("\n");
         }
     } else { // horizontal case
-        int max_freq = 0;
-        for (int i = 0; i <= *max_number; i++) {
+        int max_freq = 0; // initializing and assigning max_freq to avoid garbage values
+        for (int i = 0; i <= *max_number; i++) { // looping through our array to find the highest frequency
             if (freq[i] > max_freq) max_freq = freq[i];
         }
         printf("  "); // spacing for top row since we want to print the rows for readability
@@ -112,7 +112,7 @@ void draw_histogram(int* freq, int* max_number, char* orientation) {
                     printf("   ");
                 }
             }
-            if (i <= max_freq) printf("\n");
+            if (i <= max_freq) printf("\n"); // only print new line if we have a populated line
         }
     }
 }
