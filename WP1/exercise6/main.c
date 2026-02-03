@@ -86,6 +86,10 @@ void draw_histogram(int* freq, int* max_number, char* orientation) {
             printf("\n");
         }
     } else { // horizontal case
+        int max_freq = 0;
+        for (int i = 0; i <= *max_number; i++) {
+            if (freq[i] > max_freq) max_freq = freq[i];
+        }
         printf("  "); // spacing for top row since we want to print the rows for readability
         for (int i = 1; i <= *max_number; i++) { // looping over from 1 to max_number to print the first row ("x axis")
             printf("%2d ", i); // 2 digit %2d for spacing purposes
@@ -98,15 +102,17 @@ void draw_histogram(int* freq, int* max_number, char* orientation) {
         This is because we need to keep track of ALL numbers each loop iteration, so we need to print an x for every number that should have an x on the current row
         */
         for (int i = 1; i <= *max_number; i++) {
-            printf("%2d", i); // printing row number for readability, same deal here, %2d for spacing purposes
+            if (i <= max_freq){
+                printf("%2d", i); // printing row number for readability, same deal here, %2d for spacing purposes
+            }
             for (int j = 1; j <= *max_number; j++) {
                 if (i <= freq[j]) {
                     printf(" x ");
-                } else {
+                } else if (i <= max_freq) {
                     printf("   ");
                 }
             }
-            printf("\n");
+            if (i <= max_freq) printf("\n");
         }
     }
 }
