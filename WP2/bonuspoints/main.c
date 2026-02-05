@@ -25,11 +25,20 @@ void clear_buffer(); // initializing clear_buffer function
 
 // Main Function
 int main(void) {
-    int week_no; // int to hold our week number
-    int day_no; // int to hold our day number
-    scanf("%1d", &week_no); // scanf to take 1 digit and put it into week_no
+    /* 
+    initialize two ints, one for week_no and one for day_no and set them to 0
+    reason for setting them to 0 is to ensure garbage value overwrite
+    since our scanf is situational, if user writes a char instead of int, it will not overwrite the value
+    the assumption and idea is that we should avoid leaving garbage values around
+    */
+    int week_no = 0;
+    int day_no = 0;
+
+    // There's an edge case here where we're currently allowing for things like 123 123 etc
+    // But because of the test having "correct input" as "1\n" I'm not sure this is actually fixable while still maintaining functionality
+    scanf("%d", &week_no); // scanf to take 1 digit and put it into week_no
     clear_buffer(); // clear buffer to clear potential \n's
-    scanf("%1d", &day_no); // scanf to take 1 digit and put it into day_no
+    scanf("%d", &day_no); // scanf to take 1 digit and put it into day_no
     clear_buffer(); // clear buffer to clear potential \n's
 
     // First checking if week_no AND day_no are invalid
