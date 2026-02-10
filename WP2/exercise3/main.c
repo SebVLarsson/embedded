@@ -74,16 +74,15 @@ REGTYPE* random_list(void){
     else we set the old->next to the newly created node, then set the current item->prev to old
     then we assign current node into old and go next iteration
     */
-
     for (i = 0; i < MAX; i++) {
         item = (REGTYPE*)malloc(sizeof(REGTYPE));
         item->number = rand() % 101; // % 100 + 1 to ensure we get a number between 1-100
         item->next = NULL;
         item->prev = NULL;
 
-        if (top == NULL) {
+        if (top == NULL) { // base case, if top is NULL, we know its the head
             top = item;
-        } else {
+        } else { // else we consider it a regular node
             old->next = item;
             item->prev = old;
         }

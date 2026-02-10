@@ -140,13 +140,13 @@ int main() {
             // and this is our action loop, we go from left to right reading each action, calling the corresponding action to execute it
             // if the user misstyped an action we simply continue the loop
             for (int i = 0; commands[i] != '\n'; i++) {
-                if (valid_move != 1) {
+                if (valid_move != 1) { // if valid move is not 1, exit the loop because we hit a wall
                     break;
-                } else if (commands[i] == 'm') {
+                } else if (commands[i] == 'm') { // if move
                     move(&robot, &valid_move);
-                } else if (commands[i] == 't') {
+                } else if (commands[i] == 't') { // if turn
                     turn(&robot.dir);
-                } else {
+                } else { // if invalid input
                     continue;
                 }
             }
@@ -174,31 +174,31 @@ void move(ROBOT *robot, int *valid_move) {
     // 0 = N, 1 = E, 2 = S, 3 = W
     // We also check if the move is in bounds, if it isn't, the move is simply skipped
     switch (robot->dir) {
-        case 0: if (robot->ypos > 0) {
+        case 0: if (robot->ypos > 0) { // if inbounds
             robot->ypos--;
             break;
-        } else {
-            *valid_move = 0;
+        } else { // not inbounds
+            *valid_move = 0; 
             break;
         }
-        case 1: if (robot->xpos < 99) {
+        case 1: if (robot->xpos < 99) { // if inbounds
             robot->xpos++; 
             break;
-        } else {
+        } else { // not inbounds
             *valid_move = 0;
             break;
         }
-        case 2: if (robot->ypos < 99) {
+        case 2: if (robot->ypos < 99) { // if inbounds
             robot->ypos++; 
             break;
-        } else {
+        } else { // not inbounds
             *valid_move = 0;
             break;
         }
-        case 3: if (robot->xpos > 0) {
+        case 3: if (robot->xpos > 0) { // if inbounds
             robot->xpos--; 
             break;
-        } else {
+        } else { // not inbounds
             *valid_move = 0;
             break;
         }
@@ -222,15 +222,19 @@ void clear_buffer() {
     while ((buffer = getchar()) != '\n' && buffer != EOF); // while we dont run into a \n or EOF we keep going to successfully clear the buffer
 }
 
+/*
+Simple nested loop printing
+'. ' for empty square and 'r ' for robot
+*/
 void print_simulation(int *robotx, int *roboty) {
-    for (int i = 0; i < 100; i++) {
-        for (int j = 0; j < 100; j++) {
-            if (i == *roboty && j == *robotx) {
+    for (int i = 0; i < 100; i++) { // rows
+        for (int j = 0; j < 100; j++) { // columns
+            if (i == *roboty && j == *robotx) { // if the robots x and y address is the same as i, we know its the robots pos
                 printf("r ");
             } else {
                 printf(". ");
             }
         }
-        printf("\n");
+        printf("\n"); // finish each row with a new line
     }
 }
