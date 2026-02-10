@@ -364,7 +364,7 @@ void append_file(PERSON *inrecord) {
     // since we want to append (a) to a binary (b) we need to put ab
     // when trying to figure out how this works I didn't know if we had to read something first so I used ab+
     // ab allows write only whilst ab+ is read and write
-    if ((pFilePtr = fopen("pFile.bin", "ab+")) != NULL) {
+    if ((pFilePtr = fopen("pFile.bin", "ab")) != NULL) {
         // write the struct inrecord into the file
         // we ensure we write the correct amount of data via sizeof(PERSON)
         // and the 1 is because we want to write 1 struct at the time
