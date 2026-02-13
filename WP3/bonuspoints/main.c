@@ -5,7 +5,7 @@
 
 int validate_size_input(char *input_buffer, int *rows, int *columns); // validate the users size input
 int validate_matrix_input(char *input_buffer, int expected); // validate the users matrix numbers input
-int** setup_matrix(char *input_buffer, int rows, int columns); // setup the matrices
+int** setup_matrix(char *input_buffer, int *rows, int *columns); // setup the matrices
 
 int main() {
     // initialize an input_buffer to 64, wasn't sure how big numbers we should support so I just picked 64
@@ -24,17 +24,21 @@ int main() {
 
         printf("Input matrix1:\n");
         fgets(input_buffer, sizeof(input_buffer), stdin); // take input from user for matrix1
+
+        // sending the input buffer together with the rows * column (to get maximum amount of cells) into the validate function to control that input is ok
         if (validate_matrix_input(input_buffer, rows * columns) == 1) return 0; // invalid input, exit program
-        int **matrix1 = setup_matrix(input_buffer, rows, columns); // initialize and setup matrix in the setup_matrix function
+        int **matrix1 = setup_matrix(input_buffer, &rows, &columns); // initialize and setup matrix in the setup_matrix function
 
         printf("Input matrix2:\n");
         fgets(input_buffer, sizeof(input_buffer), stdin); // take input from user for matrix2
+
+        // sending the input buffer together with the rows * column (to get maximum amount of cells) into the validate function to control that input is ok
         if (validate_matrix_input(input_buffer, rows * columns) == 1) { // invalid input, exit program... BUT!
-            for (int i = 0; i < rows; i++) free(matrix1[i]); // first loop through matrix1
-            free(matrix1); // and free all the memory
+            for (int i = 0; i < rows; i++) free(matrix1[i]); // first loop through matrix1 and free memory
+            free(matrix1); // and free more memory
             return 0; // then we exit the program
         }
-        int **matrix2 = setup_matrix(input_buffer, rows, columns); // initialize and setup matrix 2
+        int **matrix2 = setup_matrix(input_buffer, &rows, &columns); // initialize and setup matrix 2
 
         
         /*
@@ -136,22 +140,26 @@ int validate_matrix_input(char *input_buffer, int expected) {
 
 /*
 Setting up the matrix, allocating memory, adding our numbers to the arrays
+int** is an array of pointers, in this case int pointers
+The reason being is that in each slot in the original array we're putting another array
+And since an array is from my understanding just a block of memory and an array declaration points to that block of memory
+the array itself is, in a wierd way just a pointer
 */
-int** setup_matrix(char *input_buffer, int rows, int columns) {
-    int **matrix = malloc(rows * sizeof(int *)); // allocate the "outer" matrix or the x matrix (rows)
-    for (int i = 0; i < rows; i++) { // loop over and add another array in each of the cells in the array
-        matrix[i] = malloc(columns * sizeof(int)); // malloc columns times the size of an int
+int** setup_matrix(char *input_buffer, int *rows, int *columns) {
+    int **matrix = malloc(*rows * sizeof(int *)); // dereference pointer and allocate the "outer" matrix or the x matrix (rows)
+    for (int i = 0; i < *rows; i++) { // loop over and add another array in each of the cells in the array
+        matrix[i] = malloc(*columns * sizeof(int)); // dereference pointer and malloc columns times the size of an int
     }
 
     int row_index = 0; // control int for row_index looping
     int column_index = 0; // control int for column_index looping
     char *token = strtok(input_buffer, " \n"); // initial string setup for the strtok function
     
-    while (token != NULL && row_index < rows) { // loop until token is null or rows are filled
+    while (token != NULL && row_index < *rows) { // loop until token is null or rows are filled
         matrix[row_index][column_index] = atoi(token); // add the token after atoi (ascii to int) to the current matrix spot
         column_index++; // increment the column index
         
-        if (column_index == columns) { // if we hit the last column
+        if (column_index == *columns) { // if we hit the last column
             column_index = 0; // reset column
             row_index++; // increment row
         }
