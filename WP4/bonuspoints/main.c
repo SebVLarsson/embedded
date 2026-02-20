@@ -10,12 +10,14 @@ typedef struct {
     int capacity; // capacity of the array
 } DynamicArray;
 
+// FUNCTION DEFINITIONS
 void init_array(DynamicArray *array, size_t *start_size);
 void resize_array(DynamicArray *array);
 void add_permutation(DynamicArray *array, char *string);
 void swap(char *x, char *y);
 void backtrack(char *string, int start, size_t *len, DynamicArray *array);
 void free_array(DynamicArray *array);
+// END FUNCTION DEFINITIONS
 
 
 // main function, arguments enabled
